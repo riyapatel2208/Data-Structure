@@ -1,0 +1,185 @@
+#include<stdio.h>
+#include<conio.h>
+
+// Function Declarations
+void enqueueFront(int queue[], int *front, int *rear);
+void enqueueRear(int queue[], int *front, int *rear);
+void dequeueFront(int queue[], int *front, int *rear);
+void dequeueRear(int queue[], int *front, int *rear);
+void displayQueue(int queue[], int *front, int *rear);
+void updateQueue(int queue[], int *front, int *rear);
+
+void main()
+{
+    int queue[5], frontIndex = -1, rearIndex = -1, option;
+    int *front = &frontIndex, *rear = &rearIndex;
+
+    clrscr();
+
+    while (1)
+    {
+        printf("\n----Double Queue Operations----");
+        printf("\n1. Enqueue at Front");
+        printf("\n2. Enqueue at Rear");
+        printf("\n3. Dequeue from Front");
+        printf("\n4. Dequeue from Rear");
+        printf("\n5. Display Queue");
+        printf("\n6. Update Queue");
+        printf("\n7. Exit");
+        printf("\nEnter Your Choice: ");
+        scanf("%d", &option);
+
+        switch (option)
+        {
+            case 1:
+                enqueueFront(queue, front, rear);
+                break;
+            case 2:
+                enqueueRear(queue, front, rear);
+                break;
+            case 3:
+                dequeueFront(queue, front, rear);
+                break;
+            case 4:
+                dequeueRear(queue, front, rear);
+                break;
+            case 5:
+                displayQueue(queue, front, rear);
+                break;
+            case 6:
+                updateQueue(queue, front, rear);
+                break;
+            case 7:
+                printf("\nExiting...");
+                exit(0);
+                break;
+            default:
+                printf("\nPlease Enter a Valid Choice!");
+        }
+    }
+}
+
+// Enqueue at Front
+void enqueueFront(int queue[], int *front, int *rear)
+{
+    int element;
+    if (*front == 0)
+        printf("\nCannot Enqueue at Front. Queue is Full from the Front End!");
+    else
+    {
+        printf("\nEnter Element to Enqueue at Front: ");
+        scanf("%d", &element);
+        if (*front == -1 && *rear == -1)
+        {
+            *front = *rear = 0;
+        }
+        else
+        {
+            *front -= 1;
+        }
+        queue[*front] = element;
+    }
+}
+
+// Enqueue at Rear
+void enqueueRear(int queue[], int *front, int *rear)
+{
+    int element;
+    if (*rear == 4)
+        printf("\nCannot Enqueue at Rear. Queue is Full!");
+    else
+    {
+        printf("\nEnter Element to Enqueue at Rear: ");
+        scanf("%d", &element);
+        if (*front == -1 && *rear == -1)
+        {
+            *front = *rear = 0;
+        }
+        else
+        {
+            *rear += 1;
+        }
+        queue[*rear] = element;
+    }
+}
+
+// Dequeue from Front
+void dequeueFront(int queue[], int *front, int *rear)
+{
+    if (*front == -1 || *front > *rear)
+    {
+        printf("\nQueue is Empty from Front!");
+        *front = *rear = -1;
+    }
+    else
+    {
+        printf("\nDequeued Element from Front: %d", queue[*front]);
+        *front += 1;
+    }
+}
+
+// Dequeue from Rear
+void dequeueRear(int queue[], int *front, int *rear)
+{
+    if (*rear == -1 || *rear < *front)
+    {
+        printf("\nQueue is Empty from Rear!");
+        *front = *rear = -1;
+    }
+    else
+    {
+        printf("\nDequeued Element from Rear: %d", queue[*rear]);
+        *rear -= 1;
+    }
+}
+
+// Display Queue
+void displayQueue(int queue[], int *front, int *rear)
+{
+    int i;
+    if (*front != -1 && *rear != -1)
+    {
+        printf("\nQueue: ");
+        for (i = *front; i <= *rear; i++)
+        {
+            printf(" %d ", queue[i]);
+        }
+        printf("\n");
+    }
+    else
+    {
+        printf("\nQueue is Empty!");
+    }
+}
+
+// Update Queue
+void updateQueue(int queue[], int *front, int *rear)
+{
+    int element, newElement, i, found = 0;
+    if (*front != -1)
+    {
+        printf("\nEnter Element to Update: ");
+        scanf("%d", &element);
+        for (i = *front; i <= *rear; i++)
+        {
+            if (queue[i] == element)
+            {
+                printf("\nEnter New Element: ");
+                scanf("%d", &newElement);
+                queue[i] = newElement;
+                found = 1;
+                printf("\nElement %d updated to %d.", element, newElement);
+                break;
+            }
+        }
+
+        if (!found)
+        {
+            printf("\nElement not found in the queue!");
+        }
+    }
+    else
+    {
+        printf("\nQueue is Empty!");
+    }
+}
