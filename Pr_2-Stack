@@ -1,0 +1,150 @@
+#include<stdio.h>
+#include<conio.h>
+
+// Function Declarations
+int push(int stack[], int top);
+void display(int stack[], int top);
+int pop(int top, int stack[]);
+void peek(int stack[], int top);
+void modify(int top, int stack[]);
+
+void main()
+{
+    int stack[5];
+    int top = -1, ch;
+    clrscr();
+    
+    while (1)
+    {
+        printf("--------------");
+        printf("Menu:");
+        printf("--------------");
+        printf("\n1. Push");
+        printf("\n2. Pop");
+        printf("\n3. Peek");
+        printf("\n4. Modify");
+        printf("\n5. Display");
+        printf("\n6. Exit");
+        printf("\nEnter Your choice:");
+        scanf("%d", &ch);
+
+        switch (ch)
+        {
+            case 1:
+                top = push(stack, top);
+                break;
+            case 2:
+                top = pop(top, stack);
+                break;
+            case 3:
+                peek(stack, top);
+                break;
+            case 4:
+                modify(top, stack);
+                break;
+            case 5:
+                display(stack, top);
+                break;
+            case 6:
+                exit(0);
+                break;
+            default:
+                printf("\nPlease Enter Valid Choice..!\n");
+        }
+    }
+}
+
+int push(int stack[], int top)
+{
+    int ele;
+    if (top == 4)
+    {
+        printf("\nStack Overflow.\n");
+    }
+    else
+    {
+        printf("\nEnter Element:");
+        scanf("%d", &ele);
+        top = top + 1;
+        stack[top] = ele;
+        printf("\nElement %d added successfully to stack.\n", ele);  // Confirmation message
+    }
+    return top;
+}
+
+void display(int stack[], int top)
+{
+    int i;
+    if (top == -1)
+    {
+        printf("Stack is Empty.\n");
+    }
+    else
+    {
+        printf("\nStack:");
+        for (i = 0; i <= top; i++)
+        {
+            printf(" %d ", stack[i]);
+        }
+        printf("\n");
+    }
+}
+
+int pop(int top, int stack[])
+{
+    if (top == -1)
+    {
+        printf("\nElement Not Found in Stack.\n");
+    }
+    else
+    {
+        printf("\nPopped Element is: %d\n", stack[top]);
+        top = top - 1;
+    }
+    return top;
+}
+
+void peek(int stack[], int top)
+{
+    if (top == -1)
+    {
+        printf("\nElement Not Found in stack.\n");
+    }
+    else
+    {
+        printf("\nTop Element is: %d\n", stack[top]);
+    }
+}
+
+void modify(int top, int stack[])
+{
+    int ele, i, New, found = 0;
+    
+    if (top == -1)
+    {
+        printf("\nStack is Empty.\n");
+    }
+    else
+    {
+        printf("\nEnter Element To Modify:");
+        scanf("%d", &ele);
+
+        for (i = 0; i <= top; i++)
+        {
+            if (stack[i] == ele)
+            {
+                printf("\nEnter New Element:");
+                scanf("%d", &New);
+                stack[i] = New;
+                printf("\nElement %d modified to %d successfully.\n", ele, New);  // Success message
+                found = 1;
+                break;
+            }
+        }
+
+        if (!found)  // If element is not found in the stack
+        {
+            printf("\nElement %d not found in stack.\n", ele);
+        }
+    }
+}
