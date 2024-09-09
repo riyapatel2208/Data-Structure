@@ -1,9 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-
 #define MAX 5
 
-// Function Declarations
 void enqueue(int queue[], int *rear, int *front);
 void dequeue(int queue[], int *rear, int *front);
 void displayQueue(int queue[], int front, int rear);
@@ -14,13 +12,10 @@ void main()
     int queue[MAX], rearIndex = -1, frontIndex = -1;
     int *rear = &rearIndex, *front = &frontIndex;
     int choice;
-
-    // Initialize queue
     for (int i = 0; i < MAX; i++)
     {
         queue[i] = 0;
     }
-
     while (1)
     {
         printf("\n----Circular Queue Operations----");
@@ -31,7 +26,6 @@ void main()
         printf("\n5. Exit");
         printf("\nEnter Your Choice: ");
         scanf("%d", &choice);
-
         switch (choice)
         {
             case 1:
@@ -59,7 +53,6 @@ void enqueue(int queue[], int *rear, int *front)
 {
     int element;
     int nextRear = (*rear + 1) % MAX;
-    
     if (nextRear == *front)
     {
         printf("\nQueue is Full!");
@@ -139,7 +132,7 @@ void displayQueue(int queue[], int front, int rear)
 
 void updateQueue(int queue[], int front)
 {
-    int element, newElement, found = 0;
+    int element, newElement, found = 0,i;
     if (front == -1)
     {
         printf("\nQueue is Empty!");
@@ -148,7 +141,7 @@ void updateQueue(int queue[], int front)
     {
         printf("\nEnter Element to Update: ");
         scanf("%d", &element);
-        for (int i = 0; i < MAX; i++)
+        for (i = 0; i < MAX; i++)
         {
             if (queue[i] == element)
             {
