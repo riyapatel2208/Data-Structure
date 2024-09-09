@@ -1,7 +1,7 @@
 #include<stdio.h>
-#include <stdlib.h>
+#include<stdlib.h>
+#include<conio.h>
 
-// Function Declarations
 int insert(int array[], int currentIndex);
 void display(int array[], int currentIndex);
 void update(int array[], int currentIndex);
@@ -14,197 +14,226 @@ void main() {
     int array[3];
     int currentIndex = -1;
     int choice;
-    
-    while(1) {
-        printf("--------------");
-        printf("Menu:");
-        printf("--------------");
-        printf("\n1. Insert");
-        printf("\n2. Remove");
-        printf("\n3. Modify");
-        printf("\n4. Sort");
-        printf("\n5. Search");
-        printf("\n6. Binary Search");
-        printf("\n7. Display");
-        printf("\n8. Exit");
-        printf("\nEnter your choice: ");
-        scanf("%d", &choice);
-        
-        switch(choice) {
-            case 1:
-                currentIndex = insert(array, currentIndex);
-                break;
-            case 2:
-                currentIndex = deleteElement(array, currentIndex);
-                break;
-            case 3:
-                update(array, currentIndex);
-                break;
-            case 4:
-                sortArray(array, currentIndex);
-                break;
-            case 5:
-                linearSearch(array, currentIndex);
-                break;
-            case 6:
-                binarySearch(array, currentIndex);
-                break;
-            case 7:
-                display(array, currentIndex);
-                break;
-            case 8:
-                exit(0);
-            default:
-                printf("please enter valid choice.\n");
-                
-        }
+    clrscr();
+    while(1)
+    {
+	printf("--------------");
+	printf("Menu:");
+	printf("--------------");
+	printf("\n1. Insert");
+	printf("\n2. Remove");
+	printf("\n3. Modify");
+	printf("\n4. Sort");
+	printf("\n5. Search");
+	printf("\n6. Binary Search");
+	printf("\n7. Display");
+	printf("\n8. Exit");
+	printf("\nEnter your choice: ");
+	scanf("%d", &choice);
+
+	switch(choice)
+	{
+	    case 1:
+		currentIndex = insert(array, currentIndex);
+		break;
+	    case 2:
+		currentIndex = deleteElement(array, currentIndex);
+		break;
+	    case 3:
+		update(array, currentIndex);
+		break;
+	    case 4:
+		sortArray(array, currentIndex);
+		break;
+	    case 5:
+		linearSearch(array, currentIndex);
+		break;
+	    case 6:
+		binarySearch(array, currentIndex);
+		break;
+	    case 7:
+		display(array, currentIndex);
+		break;
+	    case 8:
+		exit(0);
+	    default:
+		printf("please enter valid choice.\n");
+
+	}
     }
 }
 
-int insert(int array[], int currentIndex) {
+int insert(int array[], int currentIndex)
+{
     int element;
-    if(currentIndex == 2) {
-        printf("\nArray is Overflow..\n");
-    } else {
-        printf("\nEnter Element: ");
-        scanf("%d", &element);
-        currentIndex++;
-        array[currentIndex] = element;
+    if(currentIndex == 2)
+    {
+	printf("\nArray is Overflow..\n");
+    }
+    else
+    {
+	printf("\nEnter Element: ");
+	scanf("%d", &element);
+	currentIndex++;
+	array[currentIndex] = element;
     }
     return currentIndex;
 }
 
-void display(int array[], int currentIndex) {
+void display(int array[], int currentIndex)
+{
+    int i;
     printf("Array: ");
-    for(int i = 0; i <= currentIndex; i++) {
-        printf("%d ", array[i]);
+    for(i = 0; i <= currentIndex; i++)
+    {
+	printf("%d ", array[i]);
     }
     printf("\n");
 }
 
-void update(int array[], int currentIndex) {
-    int oldElement, newElement, updated = 0;
-    
-    if(currentIndex == -1) {
-        printf("\nArray is Empty..!\n");
-    } else {
-        printf("\nEnter Element to Update: ");
-        scanf("%d", &oldElement);
-        
-        for(int i = 0; i <= currentIndex; i++) {
-            if(array[i] == oldElement) {
-                printf("\nEnter New Element: ");
-                scanf("%d", &newElement);
-                array[i] = newElement;
-                updated = 1;
-                break;
-            }
-        }
-        
-        if(updated) {
-            printf("\nElement Successfully Updated.\n");
-        } else {
-            printf("\nElement Not Found in Array..!\n");
-        }
+void update(int array[], int currentIndex)
+{
+    int oldElement, newElement, updated = 0,i;
+    if(currentIndex == -1)
+    {
+	printf("\nArray is Empty..!\n");
+    }
+    else
+    {
+	printf("\nEnter Element to Update: ");
+	scanf("%d", &oldElement);
+	for(i = 0; i <= currentIndex; i++)
+	{
+	    if(array[i] == oldElement)
+	    {
+		printf("\nEnter New Element: ");
+		scanf("%d", &newElement);
+		array[i] = newElement;
+		updated = 1;
+		break;
+	    }
+	}
+	if(updated)
+	{
+	    printf("\nElement Successfully Updated.\n");
+	}
+	else
+	{
+	    printf("\nElement Not Found in Array..!\n");
+	}
     }
 }
 
-int deleteElement(int array[], int currentIndex) {
-    int element, deleted = 0;
-    
-    if(currentIndex == -1) {
-        printf("\nArray is Empty..!\n");
-    } else {
-        printf("\nEnter Element to Remove: ");
-        scanf("%d", &element);
-        
-        for(int i = 0; i <= currentIndex; i++) {
-            if(array[i] == element) {
-                for(int j = i; j < currentIndex; j++) {
-                    array[j] = array[j + 1];
-                }
-                currentIndex--;
-                deleted = 1;
-                break;
-            }
-        }
-        
-        if(deleted) {
-            printf("\nElement Removed Successfully.\n");
-        } else {
-            printf("\nElement Not Found in Array..!\n");
-        }
+int deleteElement(int array[], int currentIndex)
+{
+    int element, deleted = 0,i,j;
+    if(currentIndex == -1)
+    {
+	printf("\nArray is Empty..!\n");
+    }
+    else
+    {
+	printf("\nEnter Element to Remove: ");
+	scanf("%d", &element);
+	for(i = 0; i <= currentIndex; i++)
+	{
+	    if(array[i] == element)
+	    {
+		for(j = i; j < currentIndex; j++)
+		{
+		    array[j] = array[j + 1];
+		}
+		currentIndex--;
+		deleted = 1;
+		break;
+	    }
+	}
+	if(deleted)
+	{
+	    printf("\nElement Removed Successfully.\n");
+	}
+	else
+	{
+	    printf("\nElement Not Found in Array..!\n");
+	}
     }
     return currentIndex;
 }
 
-void linearSearch(int array[], int currentIndex) {
-    int searchElement, found = 0;
-    
+void linearSearch(int array[], int currentIndex)
+{
+    int searchElement, found = 0,i;
     printf("\nEnter Element to Search: ");
     scanf("%d", &searchElement);
-    
-    for(int i = 0; i <= currentIndex; i++) {
-        if(array[i] == searchElement) {
-            printf("\nElement %d Found at Position: %d\n",searchElement,i);
-            found = 1;
-            break;
-        }
+    for(i = 0; i <= currentIndex; i++)
+    {
+	if(array[i] == searchElement)
+	{
+	    printf("\nElement %d Found at Position: %d\n",searchElement,i);
+	    found = 1;
+	    break;
+	}
     }
-    
-    if(!found) {
-        printf("\nElement Not Found in Array..!\n");
+    if(!found)
+    {
+	printf("\nElement Not Found in Array..!\n");
     }
 }
 
-void sortArray(int array[], int currentIndex) {
-    int temp;
-    
-    for(int i = 0; i <= currentIndex; i++) {
-        for(int j = i + 1; j <= currentIndex; j++) {
-            if(array[i] > array[j]) {
-                temp = array[i];
-                array[i] = array[j];
-                array[j] = temp;
-            }
-        }
+void sortArray(int array[], int currentIndex)
+{
+    int temp,i,j;
+    for(i = 0; i <= currentIndex; i++)
+    {
+	for(j = i + 1; j <= currentIndex; j++)
+	{
+	    if(array[i] > array[j])
+	    {
+		temp = array[i];
+		array[i] = array[j];
+		array[j] = temp;
+	    }
+	}
     }
-    
     printf("\nSorted Array:");
-    for(int i = 0; i <= currentIndex; i++) {
-        printf(" %d ", array[i]);
+    for(i = 0; i <= currentIndex; i++)
+    {
+	printf(" %d ", array[i]);
     }
     printf("\n");
 }
 
-void binarySearch(int array[], int currentIndex) {
+void binarySearch(int array[], int currentIndex)
+{
     int searchElement, low = 0, high = currentIndex, mid, found = 0;
-    
-    if(currentIndex == -1) {
-        printf("\nArray is Empty!");
-        return;
+    if(currentIndex == -1)
+    {
+	printf("\nArray is Empty!");
+	return;
     }
-
-    sortArray(array, currentIndex); // Ensure array is sorted before performing binary search
-
+    sortArray(array, currentIndex);
     printf("\nEnter Element to Search: ");
     scanf("%d", &searchElement);
-
-    while(low <= high) {
-        mid = (low + high) / 2;
-        
-        if(array[mid] == searchElement) {
-            printf("\nElement %d Found at Position: %d\n", searchElement, mid);
-            found = 1;
-            break;
-        } else if(array[mid] > searchElement) {
-            high = mid - 1;
-        } else {
-            low = mid + 1;
-        }
+    while(low <= high)
+    {
+	mid = (low + high) / 2;
+	if(array[mid] == searchElement)
+	{
+	    printf("\nElement %d Found at Position: %d\n", searchElement, mid);
+	    found = 1;
+	    break;
+	}
+	else if(array[mid] > searchElement)
+	{
+	    high = mid - 1;
+	}
+	else
+	{
+	    low = mid + 1;
+	}
     }
-    
-    if(!found) {
-        printf("\nElement Not Found in Array..!\n");
+    if(!found)
+    {
+	printf("\nElement Not Found in Array..!\n");
     }
 }
