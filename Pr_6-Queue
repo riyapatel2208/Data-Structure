@@ -11,9 +11,7 @@ void main()
 {
     int queue[5], frontIndex = -1, rearIndex = -1, option;
     int *front = &frontIndex, *rear = &rearIndex;
-
     clrscr();
-
     while (1)
     {
         printf("\n----Queue Operation----");
@@ -24,7 +22,6 @@ void main()
         printf("\n5. Exit");
         printf("\nEnter Your Choice: ");
         scanf("%d", &option);
-
         switch (option)
         {
             case 1:
