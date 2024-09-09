@@ -1,7 +1,6 @@
 #include<stdio.h>
 #include<conio.h>
 
-// Function Declarations
 int push1(int stack[], int top1, int top2);
 int push2(int stack[], int top1, int top2);
 void display1(int stack[], int top1);
@@ -15,267 +14,239 @@ void modify2(int top2, int stack[]);
 
 void main()
 {
-    int stack[10]; // Double stack array
+    int stack[10];
     int top1 = -1, top2 = 10, ch;
-
     clrscr();
-    
     while (1)
     {
-        printf("-----------");
-        printf("Double Stack Menu:");
-        printf("-----------\n");
-        printf("\n1. Push to Stack 1");
-        printf("\n2. Push to Stack 2");
-        printf("\n3. Pop from Stack 1");
-        printf("\n4. Pop from Stack 2");
-        printf("\n5. Peek from Stack 1");
-        printf("\n6. Peek from Stack 2");
-        printf("\n7. Modify Stack 1");
-        printf("\n8. Modify Stack 2");
-        printf("\n9. Display Stack 1");
-        printf("\n10. Display Stack 2");
-        printf("\n11. Exit");
-        printf("\nEnter Your choice:");
-        scanf("%d", &ch);
-
-        switch (ch)
-        {
-            case 1:
-                top1 = push1(stack, top1, top2);
-                break;
-            case 2:
-                top2 = push2(stack, top1, top2);
-                break;
-            case 3:
-                top1 = pop1(top1, stack);
-                break;
-            case 4:
-                top2 = pop2(top2, stack);
-                break;
-            case 5:
-                peek1(stack, top1);
-                break;
-            case 6:
-                peek2(stack, top2);
-                break;
-            case 7:
-                modify1(top1, stack);
-                break;
-            case 8:
-                modify2(top2, stack);
-                break;
-            case 9:
-                display1(stack, top1);
-                break;
-            case 10:
-                display2(stack, top2);
-                break;
-            case 11:
-                exit(0);
-                break;
-            default:
-                printf("\nPlease Enter Valid Choice..!\n");
-        }
+	printf("-----------");
+	printf("Double Stack Menu:");
+	printf("-----------\n");
+	printf("\n1. Push to Stack 1");
+	printf("\n2. Push to Stack 2");
+	printf("\n3. Pop from Stack 1");
+	printf("\n4. Pop from Stack 2");
+	printf("\n5. Peek from Stack 1");
+	printf("\n6. Peek from Stack 2");
+	printf("\n7. Modify Stack 1");
+	printf("\n8. Modify Stack 2");
+	printf("\n9. Display Stack 1");
+	printf("\n10. Display Stack 2");
+	printf("\n11. Exit");
+	printf("\nEnter Your choice:");
+	scanf("%d", &ch);
+	switch (ch)
+	{
+	    case 1:
+		top1 = push1(stack, top1, top2);
+		break;
+	    case 2:
+		top2 = push2(stack, top1, top2);
+		break;
+	    case 3:
+		top1 = pop1(top1, stack);
+		break;
+	    case 4:
+		top2 = pop2(top2, stack);
+		break;
+	    case 5:
+		peek1(stack, top1);
+		break;
+	    case 6:
+		peek2(stack, top2);
+		break;
+	    case 7:
+		modify1(top1, stack);
+		break;
+	    case 8:
+		modify2(top2, stack);
+		break;
+	    case 9:
+		display1(stack, top1);
+		break;
+	    case 10:
+		display2(stack, top2);
+		break;
+	    case 11:
+		exit(0);
+		break;
+	    default:
+		printf("\nPlease Enter Valid Choice..!\n");
+	}
     }
 }
-
-// Stack 1 - Push function
 int push1(int stack[], int top1, int top2)
 {
     int ele;
     if (top1 + 1 == top2)
     {
-        printf("\nStack Overflow for Stack 1.\n");
+	printf("\nStack Overflow for Stack 1.\n");
     }
     else
     {
-        printf("\nEnter Element for Stack 1:");
-        scanf("%d", &ele);
-        top1++;
-        stack[top1] = ele;
-        printf("\nElement %d added successfully to Stack 1.\n", ele);
+	printf("\nEnter Element for Stack 1:");
+	scanf("%d", &ele);
+	top1++;
+	stack[top1] = ele;
+	printf("\nElement %d added successfully to Stack 1.\n", ele);
     }
     return top1;
 }
-
-// Stack 2 - Push function
 int push2(int stack[], int top1, int top2)
 {
     int ele;
     if (top2 - 1 == top1)
     {
-        printf("\nStack Overflow for Stack 2.\n");
+	printf("\nStack Overflow for Stack 2.\n");
     }
     else
     {
-        printf("\nEnter Element for Stack 2:");
-        scanf("%d", &ele);
-        top2--;
-        stack[top2] = ele;
-        printf("\nElement %d added successfully to Stack 2.\n", ele);
+	printf("\nEnter Element for Stack 2:");
+	scanf("%d", &ele);
+	top2--;
+	stack[top2] = ele;
+	printf("\nElement %d added successfully to Stack 2.\n", ele);
     }
     return top2;
 }
-
-// Stack 1 - Display function
 void display1(int stack[], int top1)
 {
     int i;
     if (top1 == -1)
     {
-        printf("\nStack 1 is Empty.\n");
+	printf("\nStack 1 is Empty.\n");
     }
     else
     {
-        printf("\nStack 1:");
-        for (i = 0; i <= top1; i++)
-        {
-            printf(" %d ", stack[i]);
-        }
-        printf("\n");
+	printf("\nStack 1:");
+	for (i = 0; i <= top1; i++)
+	{
+	    printf(" %d ", stack[i]);
+	}
+	printf("\n");
     }
 }
-
-// Stack 2 - Display function
 void display2(int stack[], int top2)
 {
     int i;
     if (top2 == 10)
     {
-        printf("\nStack 2 is Empty.\n");
+	printf("\nStack 2 is Empty.\n");
     }
     else
     {
-        printf("\nStack 2:");
-        for (i = 9; i >= top2; i--)
-        {
-            printf(" %d ", stack[i]);
-        }
-        printf("\n");
+	printf("\nStack 2:");
+	for (i = 9; i >= top2; i--)
+	{
+	    printf(" %d ", stack[i]);
+	}
+	printf("\n");
     }
 }
-
-// Stack 1 - Pop function
 int pop1(int top1, int stack[])
 {
     if (top1 == -1)
     {
-        printf("\nStack 1 is Empty.\n");
+	printf("\nStack 1 is Empty.\n");
     }
     else
     {
-        printf("\nPopped Element from Stack 1: %d\n", stack[top1]);
-        top1--;
+	printf("\nPopped Element from Stack 1: %d\n", stack[top1]);
+	top1--;
     }
     return top1;
 }
-
-// Stack 2 - Pop function
 int pop2(int top2, int stack[])
 {
     if (top2 == 10)
     {
-        printf("\nStack 2 is Empty.\n");
+	printf("\nStack 2 is Empty.\n");
     }
     else
     {
-        printf("\nPopped Element from Stack 2: %d\n", stack[top2]);
-        top2++;
+	printf("\nPopped Element from Stack 2: %d\n", stack[top2]);
+	top2++;
     }
     return top2;
 }
-
-// Stack 1 - Peek function
 void peek1(int stack[], int top1)
 {
     if (top1 == -1)
     {
-        printf("\nStack 1 is Empty.\n");
+	printf("\nStack 1 is Empty.\n");
     }
     else
     {
-        printf("\nTop Element in Stack 1: %d\n", stack[top1]);
+	printf("\nTop Element in Stack 1: %d\n", stack[top1]);
     }
 }
-
-// Stack 2 - Peek function
 void peek2(int stack[], int top2)
 {
     if (top2 == 10)
     {
-        printf("\nStack 2 is Empty.\n");
+	printf("\nStack 2 is Empty.\n");
     }
     else
     {
-        printf("\nTop Element in Stack 2: %d\n", stack[top2]);
+	printf("\nTop Element in Stack 2: %d\n", stack[top2]);
     }
 }
-
-// Stack 1 - Modify function
 void modify1(int top1, int stack[])
 {
     int ele, i, New, found = 0;
 
     if (top1 == -1)
     {
-        printf("\nStack 1 is Empty.\n");
+	printf("\nStack 1 is Empty.\n");
     }
     else
     {
-        printf("\nEnter Element to Modify in Stack 1:");
-        scanf("%d", &ele);
-
-        for (i = 0; i <= top1; i++)
-        {
-            if (stack[i] == ele)
-            {
-                printf("\nEnter New Element:");
-                scanf("%d", &New);
-                stack[i] = New;
-                printf("\nElement %d modified to %d successfully in Stack 1.\n", ele, New);
-                found = 1;
-                break;
-            }
-        }
-
-        if (!found)
-        {
-            printf("\nElement %d not found in Stack 1.\n", ele);
-        }
+	printf("\nEnter Element to Modify in Stack 1:");
+	scanf("%d", &ele);
+	for (i = 0; i <= top1; i++)
+	{
+	    if (stack[i] == ele)
+	    {
+		printf("\nEnter New Element:");
+		scanf("%d", &New);
+		stack[i] = New;
+		printf("\nElement %d modified to %d successfully in Stack 1.\n", ele, New);
+		found = 1;
+		break;
+	    }
+	}
+	if (!found)
+	{
+	    printf("\nElement %d not found in Stack 1.\n", ele);
+	}
     }
 }
-
-// Stack 2 - Modify function
 void modify2(int top2, int stack[])
 {
     int ele, i, New, found = 0;
-
     if (top2 == 10)
     {
-        printf("\nStack 2 is Empty.\n");
+	printf("\nStack 2 is Empty.\n");
     }
     else
     {
-        printf("\nEnter Element to Modify in Stack 2:");
-        scanf("%d", &ele);
-
-        for (i = 9; i >= top2; i--)
-        {
-            if (stack[i] == ele)
-            {
-                printf("\nEnter New Element:");
-                scanf("%d", &New);
-                stack[i] = New;
-                printf("\nElement %d modified to %d successfully in Stack 2.\n", ele, New);
-                found = 1;
-                break;
-            }
-        }
-
-        if (!found)
-        {
-            printf("\nElement %d not found in Stack 2.\n", ele);
-        }
+	printf("\nEnter Element to Modify in Stack 2:");
+	scanf("%d", &ele);
+	for (i = 9; i >= top2; i--)
+	{
+	    if (stack[i] == ele)
+	    {
+		printf("\nEnter New Element:");
+		scanf("%d", &New);
+		stack[i] = New;
+		printf("\nElement %d modified to %d successfully in Stack 2.\n", ele, New);
+		found = 1;
+		break;
+	    }
+	}
+	if (!found)
+	{
+	    printf("\nElement %d not found in Stack 2.\n", ele);
+	}
     }
 }
