@@ -1,0 +1,80 @@
+#include <stdio.h>
+#include <conio.h>
+
+// Function prototypes
+void mergesort(int a[], int i, int j);
+void merge(int a[], int i1, int j1, int i2, int j2);
+
+void main() {
+    int a[30], n, i;
+
+    // Input the number of elements
+    printf("Enter number of elements: ");
+    scanf("%d", &n);
+
+    // Input array elements
+    printf("Enter array elements: ");
+    for (i = 0; i < n; i++) {
+        scanf("%d", &a[i]);
+    }
+
+    // Call mergesort
+    mergesort(a, 0, n - 1);
+
+    // Output the sorted array
+    printf("\nSorted array is: ");
+    for (i = 0; i < n; i++) {
+        printf("%d ", a[i]);
+    }
+
+    getch(); // Wait for user input (for Windows systems)
+}
+
+// Recursive mergesort function
+void mergesort(int a[], int i, int j) {
+    int mid;
+    if (i < j) {
+        mid = (i + j) / 2;
+
+        // Left recursion
+        mergesort(a, i, mid);
+
+        // Right recursion
+        mergesort(a, mid + 1, j);
+
+        // Merging two sorted subarrays
+        merge(a, i, mid, mid + 1, j);
+    }
+}
+
+// Function to merge two sorted subarrays
+void merge(int a[], int i1, int j1, int i2, int j2) {
+    int temp[50]; // Temporary array for merging
+    int i = i1;   // Start index of the first subarray
+    int j = i2;   // Start index of the second subarray
+    int k = 0;    // Index for the temporary array
+
+    // Compare elements from both subarrays and merge
+    while (i <= j1 && j <= j2) {
+        if (a[i] < a[j]) {
+            temp[k++] = a[i++];
+        } else {
+            temp[k++] = a[j++];
+        }
+    }
+
+    // Copy remaining elements of the first subarray
+    while (i <= j1) {
+        temp[k++] = a[i++];
+    }
+
+    // Copy remaining elements of the second subarray
+    while (j <= j2) {
+        temp[k++] = a[j++];
+    }
+
+    // Transfer elements from temp[] back to the original array
+    for (i = i1, j = 0; i <= j2; i++, j++) {
+        a[i] = temp[j];
+    }
+}
