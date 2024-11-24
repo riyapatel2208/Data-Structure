@@ -1,0 +1,217 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Structure to represent a matrix node (row or column)
+struct Node {
+    int value;
+    struct Node* next;  // Pointer to next element in the row or column
+};
+
+// Structure for the multi-linked list representing a matrix
+struct Matrix {
+    struct Node* rows;  // Pointer to the first row
+    int rowCount;        // Number of rows
+    int colCount;        // Number of columns
+};
+
+// Function to create a new matrix node
+struct Node* createNode(int value) {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->value = value;
+    newNode->next = NULL;
+    return newNode;
+}
+
+// Function to create a new matrix
+struct Matrix* createMatrix(int rows, int cols) {
+    struct Matrix* mat = (struct Matrix*)malloc(sizeof(struct Matrix));
+    mat->rowCount = rows;
+    mat->colCount = cols;
+    mat->rows = NULL;
+    
+    struct Node *rowStart = NULL, *current = NULL;
+    
+    for (int i = 0; i < rows; i++) {
+        rowStart = NULL;
+        current = NULL;
+        
+        for (int j = 0; j < cols; j++) {
+            int value;
+            printf("Enter value for matrix[%d][%d]: ", i + 1, j + 1);
+            scanf("%d", &value);
+            
+            struct Node* newNode = createNode(value);
+            if (rowStart == NULL) {
+                rowStart = newNode;
+            } else {
+                current->next = newNode;
+            }
+            current = newNode;
+        }
+
+        // Append the row node to the matrix
+        if (mat->rows == NULL) {
+            mat->rows = rowStart;
+        } else {
+            struct Node* temp = mat->rows;
+            while (temp->next != NULL) {
+                temp = temp->next;
+            }
+            temp->next = rowStart;
+        }
+    }
+    return mat;
+}
+
+// Function to display the matrix
+void displayMatrix(struct Matrix* mat) {
+    struct Node* rowPtr = mat->rows;
+    for (int i = 0; i < mat->rowCount; i++) {
+        struct Node* current = rowPtr;
+        for (int j = 0; j < mat->colCount; j++) {
+            printf("%d ", current->value);
+            current = current->next;
+        }
+        printf("\n");
+        rowPtr = rowPtr->next;
+    }
+}
+
+// Function to add two matrices
+struct Matrix* addMatrices(struct Matrix* mat1, struct Matrix* mat2) {
+    if (mat1->rowCount != mat2->rowCount || mat1->colCount != mat2->colCount) {
+        printf("Matrix dimensions do not match for addition.\n");
+        return NULL;
+    }
+    
+    struct Matrix* result = createMatrix(mat1->rowCount, mat1->colCount);
+    struct Node* rowPtr1 = mat1->rows;
+    struct Node* rowPtr2 = mat2->rows;
+    struct Node* rowPtrResult = result->rows;
+    
+    for (int i = 0; i < mat1->rowCount; i++) {
+        struct Node* current1 = rowPtr1;
+        struct Node* current2 = rowPtr2;
+        struct Node* currentResult = rowPtrResult;
+        
+        for (int j = 0; j < mat1->colCount; j++) {
+            currentResult->value = current1->value + current2->value;
+            current1 = current1->next;
+            current2 = current2->next;
+            currentResult = currentResult->next;
+        }
+        
+        rowPtr1 = rowPtr1->next;
+        rowPtr2 = rowPtr2->next;
+        rowPtrResult = rowPtrResult->next;
+    }
+    
+    return result;
+}
+
+// Function to multiply two matrices
+struct Matrix* multiplyMatrices(struct Matrix* mat1, struct Matrix* mat2) {
+    if (mat1->colCount != mat2->rowCount) {
+        printf("Matrix dimensions do not match for multiplication.\n");
+        return NULL;
+    }
+    
+    struct Matrix* result = createMatrix(mat1->rowCount, mat2->colCount);
+    struct Node* rowPtr1 = mat1->rows;
+    struct Node* colPtr2 = mat2->rows;
+    
+    for (int i = 0; i < mat1->rowCount; i++) {
+        struct Node* current1 = rowPtr1;
+        for (int j = 0; j < mat2->colCount; j++) {
+            int sum = 0;
+            struct Node* current2 = colPtr2;
+            for (int k = 0; k < mat1->colCount; k++) {
+                sum += current1->value * current2->value;
+                current1 = current1->next;
+                current2 = current2->next;
+            }
+            struct Node* newNode = createNode(sum);
+            newNode->next = result->rows;
+            result->rows = newNode;
+            current1 = rowPtr1;
+        }
+        rowPtr1 = rowPtr1->next;
+        colPtr2 = colPtr2->next;
+    }
+    
+    return result;
+}
+
+int main() {
+    struct Matrix *mat1, *mat2, *result;
+    int choice;
+    int rows, cols;
+
+    do {
+        printf("\nMenu:\n");
+        printf("1. Matrix Addition\n");
+        printf("2. Matrix Multiplication\n");
+        printf("3. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                printf("Enter number of rows for matrices: ");
+                scanf("%d", &rows);
+                printf("Enter number of columns for matrices: ");
+                scanf("%d", &cols);
+                
+                mat1 = createMatrix(rows, cols);
+                mat2 = createMatrix(rows, cols);
+                
+                printf("Matrix 1:\n");
+                displayMatrix(mat1);
+                printf("Matrix 2:\n");
+                displayMatrix(mat2);
+                
+                result = addMatrices(mat1, mat2);
+                if (result != NULL) {
+                    printf("Result of Matrix Addition:\n");
+                    displayMatrix(result);
+                }
+                break;
+                
+            case 2:
+                printf("Enter number of rows for matrix 1: ");
+                scanf("%d", &rows);
+                printf("Enter number of columns for matrix 1: ");
+                scanf("%d", &cols);
+                
+                mat1 = createMatrix(rows, cols);
+                
+                printf("Enter number of rows for matrix 2: ");
+                scanf("%d", &rows);
+                printf("Enter number of columns for matrix 2: ");
+                scanf("%d", &cols);
+                
+                mat2 = createMatrix(rows, cols);
+                
+                printf("Matrix 1:\n");
+                displayMatrix(mat1);
+                printf("Matrix 2:\n");
+                displayMatrix(mat2);
+                
+                result = multiplyMatrices(mat1, mat2);
+                if (result != NULL) {
+                    printf("Result of Matrix Multiplication:\n");
+                    displayMatrix(result);
+                }
+                break;
+                
+            case 3:
+                printf("Exiting...\n");
+                break;
+                
+            default:
+                printf("Invalid choice. Please try again.\n");
+        }
+    } while (choice != 3);
+
+    return 0;
+}
