@@ -1,0 +1,110 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct Node {
+    int data;
+    struct Node *right;
+    struct Node *down;
+};
+
+struct Matrix {
+    struct Node *head;
+    int rows, cols;
+};
+
+// Function to create a new node
+struct Node* createNode(int data) {
+    struct Node *newNode = (struct Node *)malloc(sizeof(struct Node));
+    newNode->data = data;
+    newNode->right = NULL;
+    newNode->down = NULL;
+    return newNode;
+}
+
+// Function to create the matrix
+void createMatrix(struct Matrix *matrix, int rows, int cols) {
+    matrix->rows = rows;
+    matrix->cols = cols;
+
+    struct Node *temp, *prevRowHead = NULL;
+    
+    // Creating the matrix linked structure
+    matrix->head = createNode(0); // dummy head node for the matrix
+    struct Node *prevNode = matrix->head;
+    
+    // Creating rows and columns
+    for (int i = 0; i < rows; i++) {
+        struct Node *rowHead = NULL, *rowPrev = NULL;
+        for (int j = 0; j < cols; j++) {
+            printf("Enter element for position (%d, %d): ", i + 1, j + 1);
+            int val;
+            scanf("%d", &val);
+
+            temp = createNode(val);
+            
+            if (j == 0) {
+                if (i == 0) {
+                    prevNode->right = temp;  // Connect to the first row
+                } else {
+                    prevRowHead->down = temp;  // Connect the previous row
+                }
+                rowHead = temp;
+            } else {
+                rowPrev->right = temp;  // Link the right node
+            }
+
+            rowPrev = temp;
+            prevNode = temp;
+        }
+        prevRowHead = rowHead;
+    }
+}
+
+// Function to display the matrix
+void displayMatrix(struct Matrix *matrix) {
+    struct Node *rowHead = matrix->head->right;
+    while (rowHead != NULL) {
+        struct Node *colHead = rowHead;
+        while (colHead != NULL) {
+            printf("%d ", colHead->data);
+            colHead = colHead->right;
+        }
+        printf("\n");
+        rowHead = rowHead->down;
+    }
+}
+
+int main() {
+    struct Matrix matrix;
+    int choice, rows, cols;
+
+    do {
+        printf("\nMenu:\n");
+        printf("1. Create Matrix\n");
+        printf("2. Display Matrix\n");
+        printf("3. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                printf("Enter number of rows: ");
+                scanf("%d", &rows);
+                printf("Enter number of columns: ");
+                scanf("%d", &cols);
+                createMatrix(&matrix, rows, cols);
+                break;
+            case 2:
+                printf("Matrix elements:\n");
+                displayMatrix(&matrix);
+                break;
+            case 3:
+                printf("Exiting program.\n");
+                break;
+            default:
+                printf("Invalid choice. Try again.\n");
+        }
+    } while (choice != 3);
+
+    return 0;
+}
