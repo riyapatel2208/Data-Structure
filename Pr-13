@@ -1,0 +1,178 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+// Define a structure for storing student information
+typedef struct Student {
+    int roll_no;               // Student's roll number
+    char name[50];             // Student's name
+    float marks;               // Student's marks
+    struct Student *prev;      // Pointer to the previous student
+    struct Student *next;      // Pointer to the next student
+} Student;
+
+Student *head = NULL;          // Global pointer to the head of the list
+
+// Function to create a new student node
+Student* createStudent(int roll_no, char name[], float marks) {
+    Student *newStudent = (Student*)malloc(sizeof(Student));
+    newStudent->roll_no = roll_no;
+    strcpy(newStudent->name, name);
+    newStudent->marks = marks;
+    newStudent->prev = newStudent->next = NULL;
+    return newStudent;
+}
+
+// Function to insert a new student into the list
+void insertStudent() {
+    int roll_no;
+    char name[50];
+    float marks;
+
+    // Get student details from the user
+    printf("Enter Roll Number: ");
+    scanf("%d", &roll_no);
+    printf("Enter Name: ");
+    scanf(" %[^\n]s", name);
+    printf("Enter Marks: ");
+    scanf("%f", &marks);
+
+    // Create a new student node
+    Student *newStudent = createStudent(roll_no, name, marks);
+
+    // If the list is empty, make the new student the head
+    if (head == NULL) {
+        head = newStudent;
+        head->next = head->prev = head; // Circular link
+    } else {
+        // Insert the new student at the end of the list
+        Student *tail = head->prev;
+        tail->next = newStudent;
+        newStudent->prev = tail;
+        newStudent->next = head;
+        head->prev = newStudent;
+    }
+    printf("Student added successfully!\n");
+}
+
+// Function to delete a student by roll number
+void deleteStudent() {
+    if (head == NULL) {
+        printf("The list is empty. Nothing to delete.\n");
+        return;
+    }
+
+    int roll_no;
+    printf("Enter Roll Number to delete: ");
+    scanf("%d", &roll_no);
+
+    Student *current = head;
+
+    do {
+        if (current->roll_no == roll_no) {
+            // If the list has only one student
+            if (current->next == current) {
+                head = NULL;
+            } else {
+                // Remove the student from the list
+                current->prev->next = current->next;
+                current->next->prev = current->prev;
+                if (current == head) {
+                    head = current->next; // Update head if the first student is deleted
+                }
+            }
+            free(current);
+            printf("Student deleted successfully!\n");
+            return;
+        }
+        current = current->next;
+    } while (current != head);
+
+    printf("Student with Roll Number %d not found.\n", roll_no);
+}
+
+// Function to modify student details
+void modifyStudent() {
+    if (head == NULL) {
+        printf("The list is empty. Nothing to modify.\n");
+        return;
+    }
+
+    int roll_no;
+    printf("Enter Roll Number to modify: ");
+    scanf("%d", &roll_no);
+
+    Student *current = head;
+
+    do {
+        if (current->roll_no == roll_no) {
+            printf("Enter New Name: ");
+            scanf(" %[^\n]s", current->name);
+            printf("Enter New Marks: ");
+            scanf("%f", &current->marks);
+            printf("Student details updated successfully!\n");
+            return;
+        }
+        current = current->next;
+    } while (current != head);
+
+    printf("Student with Roll Number %d not found.\n", roll_no);
+}
+
+// Function to display the list of students
+void displayStudents() {
+    if (head == NULL) {
+        printf("The list is empty. Nothing to display.\n");
+        return;
+    }
+
+    Student *current = head;
+
+    printf("Student List:\n");
+    printf("Roll No.\tName\t\tMarks\n");
+
+    do {
+        printf("%d\t\t%s\t\t%.2f\n", current->roll_no, current->name, current->marks);
+        current = current->next;
+    } while (current != head);
+}
+
+// Main function to provide a menu for operations
+int main() {
+    int choice;
+
+    while (1) {
+        // Display menu
+        printf("\nMenu:\n");
+        printf("1. Insert Student\n");
+        printf("2. Delete Student\n");
+        printf("3. Modify Student\n");
+        printf("4. Display Students\n");
+        printf("5. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        // Perform operations based on user choice
+        switch (choice) {
+            case 1:
+                insertStudent();
+                break;
+            case 2:
+                deleteStudent();
+                break;
+            case 3:
+                modifyStudent();
+                break;
+            case 4:
+                displayStudents();
+                break;
+            case 5:
+                printf("Exiting program. Goodbye!\n");
+                exit(0);
+            default:
+                printf("Invalid choice. Please try again.\n");
+        }
+    }
+
+    return 0;
+}
