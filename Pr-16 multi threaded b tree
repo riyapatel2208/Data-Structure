@@ -1,0 +1,123 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct Node {
+    int data;
+    struct Node *left, *right;
+    int lthread, rthread;
+} Node;
+
+// Function to create a new node
+Node* createNode(int data) {
+    Node* newNode = (Node*)malloc(sizeof(Node));
+    newNode->data = data;
+    newNode->left = NULL;
+    newNode->right = NULL;
+    newNode->lthread = 1;
+    newNode->rthread = 1;
+    return newNode;
+}
+
+// Function to insert a node into the threaded binary tree
+Node* insert(Node* root, int data) {
+    Node* newNode = createNode(data);
+    if (!root)
+        return newNode;
+
+    Node* curr = root;
+    Node* parent = NULL;
+
+    while (curr) {
+        if (data == curr->data) {
+            printf("Duplicate data not allowed.\n");
+            free(newNode);
+            return root;
+        }
+        parent = curr;
+        if (data < curr->data) {
+            if (!curr->lthread)
+                curr = curr->left;
+            else
+                break;
+        } else {
+            if (!curr->rthread)
+                curr = curr->right;
+            else
+                break;
+        }
+    }
+
+    if (data < parent->data) {
+        newNode->left = parent->left;
+        newNode->right = parent;
+        parent->lthread = 0;
+        parent->left = newNode;
+    } else {
+        newNode->right = parent->right;
+        newNode->left = parent;
+        parent->rthread = 0;
+        parent->right = newNode;
+    }
+    return root;
+}
+
+// Function to perform inorder traversal
+void inorder(Node* root) {
+    if (!root) {
+        printf("Tree is empty.\n");
+        return;
+    }
+
+    Node* curr = root;
+    while (curr->lthread == 0)
+        curr = curr->left;
+
+    while (curr) {
+        printf("%d ", curr->data);
+        if (curr->rthread)
+            curr = curr->right;
+        else {
+            curr = curr->right;
+            while (curr && curr->lthread == 0)
+                curr = curr->left;
+        }
+    }
+    printf("\n");
+}
+
+// Menu function
+int main() {
+    Node* root = NULL;
+    int choice, data;
+
+    do {
+        printf("\nMenu:\n");
+        printf("1. Insert\n");
+        printf("2. Inorder Traversal\n");
+        printf("3. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                printf("Enter data to insert: ");
+                scanf("%d", &data);
+                root = insert(root, data);
+                break;
+
+            case 2:
+                printf("Inorder Traversal: ");
+                inorder(root);
+                break;
+
+            case 3:
+                printf("Exiting program.\n");
+                break;
+
+            default:
+                printf("Invalid choice. Please try again.\n");
+        }
+    } while (choice != 3);
+
+    return 0;
+}
