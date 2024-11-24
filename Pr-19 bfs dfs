@@ -1,0 +1,148 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX 20
+
+// Structure to represent an adjacency list node
+struct Node {
+    int vertex;
+    struct Node* next;
+};
+
+// Structure to represent a graph
+struct Graph {
+    int numVertices;
+    struct Node** adjLists;
+};
+
+// Function to create a graph with a given number of vertices
+struct Graph* createGraph(int vertices) {
+    struct Graph* graph = malloc(sizeof(struct Graph));
+    graph->numVertices = vertices;
+    graph->adjLists = malloc(vertices * sizeof(struct Node*));
+
+    for (int i = 0; i < vertices; i++) {
+        graph->adjLists[i] = NULL;
+    }
+
+    return graph;
+}
+
+// Function to add an edge to the graph
+void addEdge(struct Graph* graph, int src, int dest) {
+    struct Node* newNode = malloc(sizeof(struct Node));
+    newNode->vertex = dest;
+    newNode->next = graph->adjLists[src];
+    graph->adjLists[src] = newNode;
+
+    newNode = malloc(sizeof(struct Node));
+    newNode->vertex = src;
+    newNode->next = graph->adjLists[dest];
+    graph->adjLists[dest] = newNode;
+}
+
+// Function for BFS traversal
+void BFS(struct Graph* graph, int startVertex) {
+    int visited[MAX] = {0};
+    int queue[MAX];
+    int front = 0, rear = 0;
+
+    visited[startVertex] = 1;
+    queue[rear++] = startVertex;
+
+    printf("BFS starting from vertex %d: ", startVertex);
+
+    while (front < rear) {
+        int currentVertex = queue[front++];
+
+        printf("%d ", currentVertex);
+
+        struct Node* temp = graph->adjLists[currentVertex];
+        while (temp) {
+            int adjVertex = temp->vertex;
+            if (!visited[adjVertex]) {
+                visited[adjVertex] = 1;
+                queue[rear++] = adjVertex;
+            }
+            temp = temp->next;
+        }
+    }
+    printf("\n");
+}
+
+// Function for DFS traversal
+void DFS(struct Graph* graph, int startVertex, int visited[]) {
+    visited[startVertex] = 1;
+    printf("%d ", startVertex);
+
+    struct Node* temp = graph->adjLists[startVertex];
+    while (temp) {
+        int adjVertex = temp->vertex;
+        if (!visited[adjVertex]) {
+            DFS(graph, adjVertex, visited);
+        }
+        temp = temp->next;
+    }
+}
+
+// Wrapper function for DFS to initialize visited array
+void DFSWrapper(struct Graph* graph, int startVertex) {
+    int visited[MAX] = {0};
+    printf("DFS starting from vertex %d: ", startVertex);
+    DFS(graph, startVertex, visited);
+    printf("\n");
+}
+
+// Main function
+int main() {
+    struct Graph* graph;
+    int vertices, choice, src, dest, startVertex;
+
+    while (1) {
+        printf("\nMenu:\n");
+        printf("1. Create Graph\n");
+        printf("2. BFS Traversal\n");
+        printf("3. DFS Traversal\n");
+        printf("4. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                printf("Enter the number of vertices: ");
+                scanf("%d", &vertices);
+                graph = createGraph(vertices);
+
+                while (1) {
+                    printf("Enter edge (src, dest) or (-1, -1) to stop: ");
+                    scanf("%d %d", &src, &dest);
+                    if (src == -1 && dest == -1) {
+                        break;
+                    }
+                    addEdge(graph, src, dest);
+                }
+                break;
+
+            case 2:
+                printf("Enter starting vertex for BFS: ");
+                scanf("%d", &startVertex);
+                BFS(graph, startVertex);
+                break;
+
+            case 3:
+                printf("Enter starting vertex for DFS: ");
+                scanf("%d", &startVertex);
+                DFSWrapper(graph, startVertex);
+                break;
+
+            case 4:
+                printf("Exiting...\n");
+                return 0;
+
+            default:
+                printf("Invalid choice. Please try again.\n");
+        }
+    }
+
+    return 0;
+}
